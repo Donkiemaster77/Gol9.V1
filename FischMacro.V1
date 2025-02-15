@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fishing Macro</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background: #1E1E1E;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+        select, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            background: #ff9800;
+            color: black;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #e68900;
+        }
+        #log {
+            margin-top: 10px;
+            padding: 10px;
+            background: #333;
+            border-radius: 5px;
+            font-size: 14px;
+            height: 100px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Fishing Macro</h2>
+        <label for="fishingKey">Select Fishing Key:</label>
+        <select id="fishingKey">
+            <option value="F">F</option>
+            <option value="E">E</option>
+            <option value="Space">Space</option>
+            <option value="LButton">Left Click</option>
+        </select>
+        <br>
+        <button id="toggleMacro">Start Macro</button>
+        <div id="log">Log:</div>
+    </div>
+
+    <script>
+        let macroRunning = false;
+        let macroInterval;
+
+        document.getElementById("toggleMacro").addEventListener("click", function() {
+            let fishingKey = document.getElementById("fishingKey").value;
+            let log = document.getElementById("log");
+
+            if (!macroRunning) {
+                macroRunning = true;
+                this.textContent = "Stop Macro";
+                log.innerHTML += "<p>Macro started...</p>";
+
+                macroInterval = setInterval(() => {
+                    log.innerHTML += `<p>Pressed ${fishingKey}</p>`;
+                    document.dispatchEvent(new KeyboardEvent('keydown', {'key': fishingKey}));
+                }, 5000); // Adjust delay as needed
+            } else {
+                macroRunning = false;
+                this.textContent = "Start Macro";
+                clearInterval(macroInterval);
+                log.innerHTML += "<p>Macro stopped.</p>";
+            }
+        });
+    </script>
+
+</body>
+</html>
